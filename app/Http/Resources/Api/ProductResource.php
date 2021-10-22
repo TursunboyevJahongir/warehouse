@@ -23,7 +23,7 @@ class ProductResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "code" => $this->code,
-            "image" => $this->image->file_url,
+            "image" => $this->image?->file_url,
         ];
     }
 }

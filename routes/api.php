@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\WarehouseController;
 use Illuminate\Http\Request;
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('products', [ProductsController::class, 'all']);
 Route::get('product/{id}', [ProductsController::class, 'show']);
+
+Route::get('materials', [MaterialController::class, 'all']);
+Route::get('material/{id}', [MaterialController::class, 'show']);
 
 Route::get('warehouse', [WarehouseController::class, 'all']);
 Route::get('warehouse/{id}', [WarehouseController::class, 'show']);
