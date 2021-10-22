@@ -15,7 +15,6 @@ class CreateWarehousesTable extends Migration
     {
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained();
             $table->foreignId('material_id')->constrained();
             $table->unsignedDouble('remainder');
             $table->unsignedDouble('price');

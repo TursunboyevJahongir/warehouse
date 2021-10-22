@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Warehouse
  * @package App\Models
  * @property int id
- * @property int product_id
  * @property int material_id
  * @property double $remainder meters or count
  * @property double price
@@ -25,7 +24,6 @@ class Warehouse extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'product_id',
         'material_id',
         'remainder',
         'price',
@@ -34,11 +32,6 @@ class Warehouse extends Model
     public function getSumAttribute(): float|int
     {
         return $this->remainder * $this->price;
-    }
-
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Product::class);
     }
 
     public function material(): BelongsTo
