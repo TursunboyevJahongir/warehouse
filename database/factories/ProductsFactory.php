@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\products;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductsFactory extends Factory
@@ -12,7 +12,25 @@ class ProductsFactory extends Factory
      *
      * @var string
      */
-    protected $model = products::class;
+    protected $model = Product::class;
+
+    public function configure(): ProductsFactory
+    {
+        //image ))
+        $fake = $this->faker;
+        return $this->afterCreating(static function(Product $product) use ($fake) {
+            @mkdir(public_path('/uploads/product/'), 0777, true);
+            $time = time() . random_int(1000, 60000);
+            copy($fake->imageUrl(), public_path('/uploads/category/') . $time . '.jpg');
+            $path = '/uploads/category/' . $time . '.jpg';
+            $product->image()->create([
+                'name' => $fake->word(),
+                'type' => $fake->fileExtension,
+                'full_url' => $path,
+                'additional_identifier' => 'product',
+            ]);
+        });
+    }
 
     /**
      * Define the model's default state.
@@ -22,7 +40,8 @@ class ProductsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->unique->word,
+            'code' => $this->faker->unique->numberBetween(100000,999999)
         ];
     }
 }

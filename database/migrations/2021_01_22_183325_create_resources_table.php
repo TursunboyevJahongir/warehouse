@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductTable extends Migration
+class CreateResourcesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('product', function (Blueprint $table) {
+        Schema::create('resources', function (Blueprint $table) {
             $table->id();
+            $table->string('additional_identifier');
             $table->string('name');
-            $table->string('code')->unique();
-            $table->softDeletes();
-
+            $table->string('type');
+            $table->string('full_url');
+            $table->Morphs('resource');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product');
+        Schema::dropIfExists('resources');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\materials;
+use App\Models\Material;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MaterialsFactory extends Factory
@@ -12,7 +12,7 @@ class MaterialsFactory extends Factory
      *
      * @var string
      */
-    protected $model = materials::class;
+    protected $model = Material::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class MaterialsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->unique->word
         ];
     }
 }

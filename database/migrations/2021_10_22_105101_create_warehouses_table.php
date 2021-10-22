@@ -17,8 +17,9 @@ class CreateWarehousesTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained();
             $table->foreignId('material_id')->constrained();
-            $table->unsignedBigInteger('remainder');
+            $table->unsignedDouble('remainder');
             $table->unsignedDouble('price');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ class CreateProductMaterialTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('material_id')->constrained()->cascadeOnDelete();
-            $table->unsignedBigInteger('quantity');
+            $table->unsignedDouble('quantity')->comment('meters or count');
             $table->softDeletes();
             $table->timestamps();
         });
