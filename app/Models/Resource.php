@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\URL;
  * @property string full_url
  * @property string resource_type
  * @property string resource_id
+ * @property string $file_url getAttribute
  */
 class Resource extends Model
 {
@@ -37,7 +38,7 @@ class Resource extends Model
 
     public function getFileUrlAttribute(): string
     {
-        return URL::to('/uploads/images/' . $this->attributes['name']);
+        return URL::to($this->full_url);
     }
     /**
      * @return MorphTo
