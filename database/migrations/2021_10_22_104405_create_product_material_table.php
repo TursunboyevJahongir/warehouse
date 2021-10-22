@@ -13,7 +13,7 @@ class CreateProductMaterialTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_material', function (Blueprint $table) {
+        Schema::create('product_materials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('material_id')->constrained()->cascadeOnDelete();

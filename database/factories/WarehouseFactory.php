@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Material;
 use App\Models\Product;
-use App\Models\ProductMaterial;
 use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -27,7 +26,8 @@ class WarehouseFactory extends Factory
         return [
             'product_id' => Product::all()->random()->id,
             'material_id' => Material::all()->random()->id,
-            'quantity' => $this->faker->numberBetween(1,10),
+            'remainder' => $this->faker->numberBetween(1,10),
+            'price' => $this->faker->numberBetween(1000,100000),
         ];
     }
 }
