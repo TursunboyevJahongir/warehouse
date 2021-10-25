@@ -25,6 +25,22 @@ class ProductMaterial extends Model
         'material_id',
         'quantity',
     ];
+    public function setCountAttribute($value)
+    {
+        $this->count = $value;
+    }
+
+    public function getSumAttribute(): float|int
+    {
+        return $this->quantity;
+    }
+
+    public function setSumAttribute($count)
+    {
+        $this->sum *= $count;
+    }
+
+
 
     public function product(): BelongsTo
     {

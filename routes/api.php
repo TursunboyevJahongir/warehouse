@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\WarehouseController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,3 +24,4 @@ Route::get('material/{id}', [MaterialController::class, 'show']);
 
 Route::get('warehouse', [WarehouseController::class, 'all']);
 Route::get('warehouse/{id}', [WarehouseController::class, 'show']);
+Route::post('warehouse/production', [WarehouseController::class, 'production']);

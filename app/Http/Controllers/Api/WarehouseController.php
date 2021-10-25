@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\ProductionRequest;
 use App\Http\Resources\Api\PaginationResourceCollection;
 use App\Http\Resources\Api\WarehouseResource;
 use App\Models\Warehouse;
@@ -40,5 +41,17 @@ class WarehouseController extends ApiController
     public function show(Warehouse $id): JsonResponse
     {
         return $this->success(__('messages.success'), new WarehouseResource($id));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param ProductionRequest $request
+     * @return JsonResponse
+     */
+    public function production(ProductionRequest $request)
+    {
+        $this->service->production2($request->validated());
+//        return $this->success(__('messages.success'), new WarehouseResource($id));
     }
 }
