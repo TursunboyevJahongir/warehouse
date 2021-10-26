@@ -13,57 +13,37 @@ class WarehouseService
         return Warehouse::query()->orderBy('material_id')->paginate($per_page);
     }
 
-    public function production($data)
-    {
-        foreach ($data['products'] as $item) {
-            $product = Product::query()->find($item['id']);
-            $qty = $item['qty'];
-            foreach ($product->materials as $material) {
-
-//                dd();
-                $ware = Warehouse::query()->where('material_id', $material->id)->orderBy('created_at', 'DESC')->get();
-                dd($ware);
-                foreach ($ware as $item) {
-                    if ($ware->first()->remainder >= $material->quantity * $qty) {
-
-                        break;
-                    } else {
-
-                    }
-                }
-            }
-        }
-//        return Warehouse::query()->orderBy('material_id')->;
-    }
-
-
-    public function production2($data)
+    public function production($data): array
     {
         $ware = Warehouse::query()->orderBy('created_at', 'DESC')->get()->toArray();
-        $array = [];
+        $basic = [];
         foreach ($data['products'] as $item) {
             $product = Product::query()->find($item['id']);
             $qty = $item['qty'];
+            $array = ['product_name' => $product->name, 'product_qty' => $qty, 'product_materials' => []];
             foreach ($product->materials as $material) {
                 $quantity = $material->quantity * $qty;
-                while ($quantity >= 0) {
-//                    $product_material = $ware[array_search(3145, array_column($ware, 'material_id'))];
-                    $product_material = $ware[array_search($material->material_id, array_column($ware, 'material_id'))];
-                    dd($product_material);
-                    dd($product_material);
-                    if ($product_material['remainder'] - $quantity >= 0) {
-                        $product_material['remainder'] -= $quantity;
-                        $array += [['product_name' => $product->id], ['product_qty' => $qty], ['material_id' => $material->id], ['qty' => $material->quantity * $qty]];
+                while ($quantity > 0) {
+                    $index = array_search($material->material_id, array_column($ware, 'material_id'));
+                    if ($index === false) {
+                        $array['product_materials'][] = ['warehouse_id' => null, 'material_name' => $material->material->name, 'qty' => $quantity, 'price' => null];
+                        $ware[$index]['material_id'] = null;
+                        break;
+                    }
+                    if ($ware[$index]['remainder'] - $quantity >= 0) {
+                        $ware[$index]['remainder'] -= $quantity;
+                        $array['product_materials'][] = ['warehouse_id' => $ware[$index]['id'], 'material_name' => $material->material->name, 'qty' => $quantity, 'price' => $ware[$index]['price']];
+                        $quantity = 0;
                     } else {
-                        $quantity -= $product_material['remainder'];
-                        unset($product_material);
+                        $quantity -= $ware[$index]['remainder'];
+                        $array['product_materials'][] = ['warehouse_id' => $ware[$index]['id'], 'material_name' => $material->material->name, 'qty' => $ware[$index]['remainder'], 'price' => $ware[$index]['price']];
+                        //bu array_column xato bermasligi uchun unset qilinsa array_column indexlar soni yana bittaga kamayib xato xisoblab boshlaydi
+                        $ware[$index]['material_id'] = null;
                     }
                 }
-
-
             }
+            array_push($basic, $array);
         }
-
-//        return Warehouse::query()->orderBy('material_id')->;
+        return $basic;
     }
 }

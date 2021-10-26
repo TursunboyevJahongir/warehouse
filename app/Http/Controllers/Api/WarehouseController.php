@@ -49,9 +49,8 @@ class WarehouseController extends ApiController
      * @param ProductionRequest $request
      * @return JsonResponse
      */
-    public function production(ProductionRequest $request)
+    public function production(ProductionRequest $request): JsonResponse
     {
-        $this->service->production2($request->validated());
-//        return $this->success(__('messages.success'), new WarehouseResource($id));
+        return $this->success(__('messages.success'), $this->service->production($request->validated()));
     }
 }
