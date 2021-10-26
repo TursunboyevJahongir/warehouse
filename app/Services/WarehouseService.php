@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\ProductMaterial;
 use App\Models\Warehouse;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -15,7 +16,9 @@ class WarehouseService
 
     public function production($data): array
     {
-        $ware = Warehouse::query()->orderBy('created_at', 'DESC')->get()->toArray();
+        $materialIds = ProductMaterial::productsMaterialsIds(array_column($data['products'], 'id'));
+        //maybe sortByDesc is faster from orderBy )
+        $ware = Warehouse::query()->whereIn('material_id',$materialIds)->get()->sortByDesc('created_at')->toArray();
         $basic = [];
         foreach ($data['products'] as $item) {
             $product = Product::query()->find($item['id']);
